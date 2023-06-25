@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
 
 app.use(express.json());
 
@@ -25,6 +26,10 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
+
+morgan.token('body', (req) => JSON.stringify(req.body));
+
+app.use(morgan(':method :url :status :response-time ms :body'));
 
 app.get("/info", (req, res) => {
   const infoText = `Phonebook has info for ${persons.length} people`;
