@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 
 app.use(express.json());
+app.use(cors());
 
 let persons = [
   {
@@ -84,8 +86,7 @@ app.post("/api/persons/", (req, res) => {
   }
 
   let newPerson = {
-    // id: Math.floor(Math.random() * 101),
-    id: 4,
+    id: Math.floor(Math.random() * 101),
     name: req.body.name,
     number: req.body.number,
   };
@@ -99,7 +100,7 @@ app.post("/api/persons/", (req, res) => {
   res.status(201).end();
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
