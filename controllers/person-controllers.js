@@ -36,7 +36,7 @@ const deletePerson = async (req, res, next) => {
 };
 
 const addPerson = async (req, res, next) => {
-  let newPerson = new Person({ name: req.body.nam, number: req.body.numbe });
+  let newPerson = new Person({ name: req.body.name, number: req.body.number });
 
   try {
     await newPerson.save();
@@ -47,7 +47,21 @@ const addPerson = async (req, res, next) => {
   }
 }
 
+const editPerson = async (req, res, next) => {
+  const newNumber = req.body.number;
+  const id = req.params.id;
+
+  try {
+    await Person.findOneAndUpdate({ _id: id  }, {$set: { number: newNumber }});
+    res.status(200).json({ message: 'Number updated successfully!'});
+  } catch (err) {
+    const error = new HttpError("Failed to update the number!", 400);
+    return next(error);
+  }
+}
+
 exports.getPersons = getPersons;
 exports.getPersonById = getPersonById;
 exports.deletePerson = deletePerson;
 exports.addPerson = addPerson;
+exports.editPerson = editPerson;

@@ -31,6 +31,8 @@ app.delete("/api/persons/:id", personControllers.deletePerson);
 
 app.post("/api/persons/", personControllers.addPerson);
 
+app.put("/api/persons/:id", personControllers.editPerson);
+
 const unknownEndpoint = (req, res) => {
   const error = new HttpError("Unknown endpoint", 404);
   next(error);
