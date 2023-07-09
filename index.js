@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const personControllers = require("./controllers/person-controllers.js");
 const HttpError = require("./models/http-error");
+const Person = require("./models/person");
 
 app.use(express.json());
 app.use(cors());
@@ -16,11 +17,16 @@ morgan.token("body", (req) => JSON.stringify(req.body));
 
 app.use(morgan(":method :url :status :response-time ms :body"));
 
-app.get("/info", (req, res) => {
-  const infoText = `Phonebook has info for ${persons.length} people`;
-  const timeStamp = new Date().toLocaleString();
-
-  res.send(`${infoText}<br>${timeStamp}`);
+app.get("/info", async(req, res, next) => {
+  try {
+    const numbOfPersons = await Person.countDocuments({}, {hint: "_id_"});
+    const infoText = `Phonebook has info for ${numbOfPersons} people`;
+    const timeStamp = new Date().toLocaleString();
+  
+    res.send(`${infoText}<br><br>${timeStamp}`);
+  } catch (err) {
+    return next(new HttpError("Failed to load info data!", 500));
+  }
 });
 
 app.get("/api/persons", personControllers.getPersons);
@@ -33,9 +39,8 @@ app.post("/api/persons/", personControllers.addPerson);
 
 app.put("/api/persons/:id", personControllers.editPerson);
 
-const unknownEndpoint = (req, res) => {
-  const error = new HttpError("Unknown endpoint", 404);
-  next(error);
+const unknownEndpoint = (req, res, next) => {
+  return next(new HttpError("Unknown endpoint", 404));
 };
 
 const errorHandler = (error, req, res, next) => {
