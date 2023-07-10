@@ -44,6 +44,11 @@ const addPerson = async (req, res, next) => {
     await newPerson.save();
     res.status(201).json("New person added successfully!");
   } catch (err) {
+    if(err.errors.name) {
+      return next(new HttpError(err.errors.name, 400));
+    } else if (err.errors.number) {
+      return next(new HttpError(err.errors.number, 400));
+    }
     return next(new HttpError("Failed to add new person, check your details and try again!", 400));
   }
 }
