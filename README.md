@@ -3,7 +3,7 @@
 course content:
 https://fullstackopen.com/
 
-Osa 3, nodeJS has to be on its own repository, because it's going to be published on web.
+Osa 3, nodeJS has to be in its own repository, because it's going to be published on web.
 
 Link to the published project: https://full-stack-open-2jq9.onrender.com
 
