@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
-  console.log("give password as argument");
+  console.log('give password as argument');
   process.exit(1);
 }
 
@@ -11,7 +11,7 @@ const url = `mongodb+srv://AZE:${password}@full-stack-open.m1dmdbf.mongodb.net/?
 
 console.log(process.argv);
 
-mongoose.set("strictQuery", false);
+mongoose.set('strictQuery', false);
 mongoose.connect(url);
 
 const personSchema = new mongoose.Schema({
@@ -19,16 +19,16 @@ const personSchema = new mongoose.Schema({
   number: String,
 });
 
-const Person = mongoose.model("Person", personSchema);
+const Person = mongoose.model('Person', personSchema);
 
 if (process.argv.length < 4) {
   Person.find({}).then(res => {
-    console.log("phonebook:");
+    console.log('phonebook:');
     res.forEach(person => {
       console.log(person);
     });
     mongoose.connection.close();
-  }) 
+  });
 } else {
   const name = process.argv[3];
   const number = process.argv[4];
@@ -38,7 +38,7 @@ if (process.argv.length < 4) {
     number: number,
   });
 
-  person.save().then((res) => {
+  person.save().then(() => {
     console.log(`added ${name} number ${number} to phonebook`);
     mongoose.connection.close();
   });
