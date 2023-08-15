@@ -1,7 +1,7 @@
 # full-stack-open-osa3-nodeJS
 
-course content:
-https://fullstackopen.com/
+Backend with nodeJS & express:
+https://fullstackopen.com/osa3
 
 Osa 3, nodeJS has to be in its own repository, because it's going to be published on web.
 
